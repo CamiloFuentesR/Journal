@@ -33,3 +33,10 @@ main{
 .pointer{
     cursor: pointer;
 }
+
+@media(max-width: 480px){
+
+    main{
+        width: 60%;
+    }
+}
