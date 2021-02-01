@@ -34,6 +34,11 @@
         border-bottom: 1px solid $primary;
         outline: none;
     }
+    
+}
+.error{
+    border-bottom: 1px solid $error;
+
 }
 
 .auth__social-networks{
@@ -47,7 +52,34 @@
 }
 
 .auth__alert-error{
-    background-color: red;
+    background-color: rgba(255, 0, 0, 0.507);
+    border-radius: 5px;
+    color: white;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+    padding: 5px;
+}
+.auth__alert-warning{
+    background-color: white;
+    border-radius: 5px  ;
+    border: 1px solid rgba(41, 22, 27, 0.589);
+    color: red;
+    display: flex;
+    margin-bottom: 10px;
+    padding: 5px;
+    text-align: center;
+}
+.auth__alert-login{
+    background-color: white;
+    color: red;
+    display: flex;
+    margin-bottom: 5px;
+    margin-top: -7px;
+    text-align: center;
+}
+.auth__alert-success{
+    background-color: rgba(0, 128, 0, 0.493);
     border-radius: 5px;
     color: white;
     display: flex;
