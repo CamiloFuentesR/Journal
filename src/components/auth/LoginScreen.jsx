@@ -27,9 +27,10 @@ export const LoginScreen = () => {
         if (email.trim() === '' || !validator.isEmail(email)) {
             dispatch(setError('Debe ingresar Email válido'));
             seterrorEmail('error');
+            setErrorPassword('')
+
             return false;
         }
-        setErrorPassword('')
         seterrorEmail('')
         return true;
     }
@@ -42,7 +43,6 @@ export const LoginScreen = () => {
             return false;
         } else if (error === 'Debe ingresar Email válido') {
             seterrorEmail('')
-            setErrorPassword('')
 
         }
         setErrorPassword('')
