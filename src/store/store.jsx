@@ -5,10 +5,8 @@ import { notesReducer } from "../reducers/notesReducer";
 import { uiReducer } from "../reducers/uiReducer";
 
 
-/* const composeEnhancers = (typeof window === 'object' &&
-typeof window.__REDUX_DEVTOOLS_EXTENSION__ !== 'undefined' ?
-window.__REDUX_DEVTOOLS_EXTENSION__() : f => f) || compose;
- */
+const composeEnhancers = (typeof window !== 'undefined' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) || compose;
+
 
 
 const reducers = combineReducers({
@@ -20,11 +18,8 @@ const reducers = combineReducers({
 
 const store = createStore(
     reducers,
-    compose(
-        applyMiddleware(thunk),
-        typeof window === 'object' &&
-        typeof window.__REDUX_DEVTOOLS_EXTENSION__ !== 'undefined' ?
-        window.__REDUX_DEVTOOLS_EXTENSION__() : f => f
+    composeEnhancers(
+        applyMiddleware(thunk)
     )
     );
 
