@@ -42,6 +42,8 @@ export const LoginScreen = () => {
             return false;
         } else if (error === 'Debe ingresar Email válido') {
             seterrorEmail('')
+            setErrorPassword('')
+
         }
         setErrorPassword('')
         return true;
