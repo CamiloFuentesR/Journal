@@ -49,7 +49,6 @@ export const RegisterScreen = () => {
         dispatch(unsetError())
         return true;
     } 
-    console.log(registerFormValue)
 
     return (
         <>

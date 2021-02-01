@@ -20,6 +20,7 @@ export const notesReducer = (state = initialState, action) => {
                 ...state,
                 notes: [...action.payload]
             }
+            //se eliminan las notas al salir, para que el sig usuario no las vea
         case types.logout:
             return {}
 
