@@ -4,7 +4,7 @@ import 'moment/locale/es';
 import { useDispatch } from 'react-redux';
 import { activeNote } from '../../actions/notesActions';
 
-export const JournalEntry = ({id,date,title,body,url}) => {
+const JournalEntry = ({id,date,title,body,url}) => {
 
     const dispatch = useDispatch();
     const noteDate = moment(date);
@@ -20,7 +20,7 @@ export const JournalEntry = ({id,date,title,body,url}) => {
     }
     return (
         <div 
-            className="journal__entry"
+            className="journal__entry animate__animated animate__flipInX"
             onClick={() =>handleEntryClick(title,body,url)}    
         >
             {
@@ -32,7 +32,6 @@ export const JournalEntry = ({id,date,title,body,url}) => {
                         backgroundImage: `url(${url})`
                     }}
                 ></div>
-
             }
             <div className="journal__entry-body">
                 <p className="journal__entry-title">
@@ -49,4 +48,4 @@ export const JournalEntry = ({id,date,title,body,url}) => {
         </div>
     )
 }
-
+export default JournalEntry;

@@ -61,11 +61,8 @@ export const NoteScreen = () => {
                             src={note.url}
                             alt="imagen"
                         />
-
                     </div>
-
                 }
-
             </div>
             <button
                 className="btn btn-danger"
