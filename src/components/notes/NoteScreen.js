@@ -39,6 +39,7 @@ export const NoteScreen = () => {
                     type="text"
                     autoFocus
                     name="title"
+                    autoComplete="false"
                     placeholder="Some awesome title"
                     className="notes__title-input"
                     value={note.title}
@@ -47,6 +48,7 @@ export const NoteScreen = () => {
                 <textarea
                     placeholder="What happend today"
                     className="notes__textarea"
+                    autoComplete="false"
                     name="body"
                     value={note.body}
                     onChange={handleInputChange}
