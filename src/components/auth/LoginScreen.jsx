@@ -15,8 +15,8 @@ export const LoginScreen = () => {
     const loading = useSelector(state => state.ui.loading)
     const verificar = useSelector(state => state.auth.verifyEmail)
     const [formValues, handleInputChange] = useForm({
-        email: 'profesor.camilo.f@gmail.com',
-        password: '123456'
+        email: '',
+        password: ''
     });
     const [errorEmail, seterrorEmail] = useState('');
     const [errorPassword, setErrorPassword] = useState('');
