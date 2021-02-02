@@ -1,31 +1,34 @@
 import React, { useEffect, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { activeNote } from '../../actions/notesActions'
+import { activeNote, startDeleting } from '../../actions/notesActions'
 import { useForm } from '../../hooks/useFom'
 import { NotesAppBar } from './NotesAppBar'
 
 export const NoteScreen = () => {
 
     const dispatch = useDispatch();
-    const { active } = useSelector(state => state.notes)
-    const [formValue, handleInputChange,  ,reset] = useForm(active || {
-        title:'',
-        body:'',
-        url:''
+    const { active: note } = useSelector(state => state.notes)
+    const [formValue, handleInputChange, , reset] = useForm(note || {
+        title: '',
+        body: '',
     });
-    const { title, body, url } = formValue;
-    const activeId = useRef(active.id)
-    useEffect(() => {
-        if(active.id !== activeId.current){
-            reset(active);
-            activeId.current= active.id
-        }
-        
-    }, [active,reset])
+    const { id } = formValue;
+    const activeId = useRef(note.id);
 
+    const handleDelete = () => {
+        dispatch(startDeleting(id))
+    }
     useEffect(() => {
-        dispatch(activeNote(formValue.id,{...formValue}))
-    }, [formValue,dispatch])
+        if (note.id !== activeId.current) {
+            reset(note);
+            activeId.current = note.id
+        }
+    }, [note, reset])
+
+    //se actualiza el state mientras se va escribiendo
+    useEffect(() => {
+        dispatch(activeNote(formValue.id, { ...formValue }))
+    }, [formValue, dispatch])
 
     return (
         <div className="notes__main-content">
@@ -38,22 +41,22 @@ export const NoteScreen = () => {
                     name="title"
                     placeholder="Some awesome title"
                     className="notes__title-input"
-                    value={title}
+                    value={note.title}
                     onChange={handleInputChange}
                 />
                 <textarea
                     placeholder="What happend today"
                     className="notes__textarea"
                     name="body"
-                    value={body}
+                    value={note.body}
                     onChange={handleInputChange}
 
                 ></textarea>
                 {
-                    url &&
+                    note.url &&
                     <div className="notes__images">
                         <img
-                            src={url}
+                            src={note.url}
                             alt="imagen"
                         />
 
@@ -62,6 +65,12 @@ export const NoteScreen = () => {
                 }
 
             </div>
+            <button
+                className="btn btn-danger"
+                onClick={handleDelete}
+            >
+                Delete
+            </button>
         </div>
     )
 }

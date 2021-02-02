@@ -22,8 +22,8 @@ export const AppRouter = () => {
     const [isLoggedIn, setisLoggedIn] = useState(false);
     useEffect(() => {
         //es un observable que esta pendiente de los cambios esto viende de firestore
-        firebase.auth().onAuthStateChanged(async user => {
-            //si existe un user id, es porque estoy logeado
+        firebase.auth().onAuthStateChanged( user => {
+            //si existe un user id, es porque estoy logeado (debe tener el email verificado)
             if (user?.uid && user.emailVerified) {
                 dispatch(loginAction(user.uid, user.displayName, user.emailVerified));
                 // al estar logeado estoy dejando una marca true de quee stoy logeado

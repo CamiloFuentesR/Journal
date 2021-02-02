@@ -1,7 +1,9 @@
 import Swal from "sweetalert2";
 import { db } from "../firebase/firebaseConfig";
+import { fileUpload } from "../helpers/fileUpload";
 import { loadNotes } from "../helpers/loadNotes";
 import { types } from "../types/types";
+
 
 
 export const startNewNote = () => {
@@ -14,7 +16,8 @@ export const startNewNote = () => {
         const newNote = {
             title: '',
             body: '',
-            date: new Date().getTime()
+            date: new Date().getTime(),
+            url: ''
         }
         try {
             // enviar a un path de firestore para guardarlo
@@ -23,11 +26,11 @@ export const startNewNote = () => {
             await dispatch(activeNote(docRef.id, newNote));
 
             //al momento de crear una nueva nota, la carga instantaneamente
-            await dispatch(startLoadingNotes(uid))
+            dispatch(addNewNote(docRef.id,newNote))
+            Swal.fire('Nueva nota Creada','','success')
         } catch (error) {
             console.log(error);
         }
-
     }
 }
 
@@ -40,6 +43,14 @@ export const activeNote = (id, note) => ({
 
 });
 
+const addNewNote = (id,note) => ({
+    type: types.notesAddNew,
+    payload: {
+        id,
+        ...note
+    }
+})
+
 export const startLoadingNotes = (uid) => {
     return async (dispatch) => {
         try {
@@ -48,25 +59,22 @@ export const startLoadingNotes = (uid) => {
         } catch (error) {
             console.log(error);
         }
-
-
     }
-
 }
+
+
 
 //las notes viennes de la bdd de fire
 export const setNotes = (notes) => ({
     type: types.notesLoad,
     payload: notes
-
 })
 
 export const startSaveNote = (note) => {
     return async (dispatch, getState) => {
         const { uid } = getState().auth;
 
-        if (!note.url ) {
-
+        if (!note.url) {
             delete note.url;
         }
 
@@ -76,11 +84,64 @@ export const startSaveNote = (note) => {
             //borro el id para no cambiarlo , ya que no necesito cambiarlo
             delete noteToFirestore.id;
             await db.doc(`${uid}/journal/notes/${note.id}`).update(noteToFirestore);
-            dispatch(startLoadingNotes(uid));
-            Swal.fire('Guardado','Se han guardado los cambios correctamente','success')
+
+            //sirve pra hacer un lazyload o pagincion, no es laa manera correcta
+            // dispatch(startLoadingNotes(uid));
+            dispatch(refreshNote(note.id, note)); //asi es mas rapio que del modo anterior
+            Swal.fire('Guardado', 'Se han guardado los cambios correctamente', 'success')
         } catch (error) {
             console.log(error);
         }
     }
-
 }
+
+export const refreshNote = (id, note) => ({
+    type: types.notesUpdated,
+    payload: {
+        id,
+        note
+    }
+});
+
+export const startUploading = (file) => {
+    return async (dispatch, getState) => {
+        const { active: activeNote } = getState().notes;
+
+        Swal.fire({
+            title: 'Uploading...',
+            text: 'Please wait...',
+            allowOutsideClick: false,
+            showConfirmButton: false,
+            willOpen: () => {
+                Swal.showLoading();
+            }
+        })
+        //fileUpload viende del helper
+        const fileUrl = await fileUpload(file);
+        activeNote.url = fileUrl;
+        dispatch(startSaveNote(activeNote))
+    }
+}
+
+export const startDeleting = (id) => {
+    return async (dispatch, getState) => {
+        const { uid } = getState().auth;
+        try {
+            await db.doc(`${uid}/journal/notes/${id}`).delete();
+
+            dispatch(deleteNote(id))
+            //eliminar foto de cloudinary
+           /*  const signature = "07470fd3dba71c3c8a70398e48988dd08d3a838f";
+            cloudinary.v2.uploader.destroy('y108i3cuzsxgnd1otroc', function(error,result) {
+            console.log(result, error) }); */
+
+        } catch (error) {
+            console.log(error);
+        }
+    }
+}
+
+const deleteNote = (id) => ({
+    type: types.notesDelete,
+    payload: id
+})
