@@ -135,7 +135,7 @@ export const startDeleting = (id) => {
             /*  const signature = "07470fd3dba71c3c8a70398e48988dd08d3a838f";
              cloudinary.v2.uploader.destroy('y108i3cuzsxgnd1otroc', function(error,result) {
              console.log(result, error) }); */
-
+            Swal.fire('Nota eliminada con exito','','success');
         } catch (error) {
             console.log(error);
         }
