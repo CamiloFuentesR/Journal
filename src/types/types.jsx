@@ -8,8 +8,8 @@ export const types = {
     uiSetError: '[UI] Set Error',
     uiRemoveError: '[Ui] Remove Error',
 
-    uiStartLoading: '[UI] Start Loding',
-    uiFinishLoading: '[UI] Finish Loding',
+    uiStartLoading: '[UI] Start Loading',
+    uiFinishLoading: '[UI] Finish Loading',
 
     notesAddNew: '[Notes] New note',
     notesActive: '[Notes] Set active note',

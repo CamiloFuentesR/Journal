@@ -1,7 +1,7 @@
 import { types } from "../types/types";
 import Swal from 'sweetalert2';
 import { firebase, googleAuthProvider } from '../firebase/firebaseConfig';
-import { finishLoading, startLoading, unsetError } from "./uiActions";
+import { finishLoading, startLoading } from "./uiActions";
 
 export const startLoginEmailPassword = (email, password, verificar) => {
     return async (dispatch) => {
@@ -10,14 +10,7 @@ export const startLoginEmailPassword = (email, password, verificar) => {
         try {
             const { user } = await firebase.auth().signInWithEmailAndPassword(email, password);
             if (user.emailVerified) {
-                dispatch(
-                    loginAction(user.uid, user.displayName, user.emailVerified),
-                )
-                dispatch(
-                    unsetError()
-                )
-                dispatch(finishLoading())
-
+                dispatch(loginAction(user.uid, user.displayName, user.emailVerified))
             }
             else {
                 // dispatch(setError('Email no verificado'))
@@ -45,6 +38,7 @@ export const startLoginEmailPassword = (email, password, verificar) => {
 export const startRegisterEmailPasswordName = (email, password, name, history) => {
     return async (dispatch) => {
         const { user } = await firebase.auth().createUserWithEmailAndPassword(email, password)
+        
         // .then(async ({ user }) => {
         try {
             //para obtener el display name ,incluso la fotografia de google

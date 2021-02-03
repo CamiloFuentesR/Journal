@@ -54,9 +54,11 @@ const addNewNote = (id, note) => ({
 
 export const startLoadingNotes = (uid) => {
     return async (dispatch) => {
+        dispatch(startLoading())
         try {
             const notes = await loadNotes(uid);
             dispatch(setNotes(notes))
+            dispatch(finishLoading())
         } catch (error) {
             console.log(error);
         }

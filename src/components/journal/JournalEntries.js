@@ -7,7 +7,6 @@ import JournalEntry from './JournalEntry';
 
     const {notes} = useSelector(state => state.notes)
     const {loading} = useSelector(state => state.ui)
-  
     return (
         <div className="journl__entries">
             {

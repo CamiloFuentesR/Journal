@@ -1,11 +1,16 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { startSaveNote,startUploading } from '../../actions/notesActions'
+import { startSaveNote, startUploading } from '../../actions/notesActions'
+import moment from 'moment'
+import 'moment/locale/es';
 
 export const NotesAppBar = () => {
 
+    
+
     const dispatch = useDispatch()
     const { active } = useSelector(state => state.notes)
+    const noteDate = moment(active.date);
 
     const handleSave = () => {
         dispatch(startSaveNote(active))
@@ -19,13 +24,13 @@ export const NotesAppBar = () => {
     const handleFileChange = (e) => {
         const file = e.target.files[0];
         file &&
-        dispatch(startUploading(file))
+            dispatch(startUploading(file))
         //para poder subir la misma imagen en dos notas
         document.querySelector('#fileselector').value = '';
     }
     return (
         <div className="notes__appbar">
-            <span>28 agoto 2020</span>
+            <span>{`${noteDate.format('ddd D')} de ${noteDate.format('MMM')} del ${noteDate.format('YYYY')}`} </span>
 
             <input
                 id="fileselector"
