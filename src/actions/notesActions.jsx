@@ -12,7 +12,7 @@ export const startNewNote = () => {
 
         //obtengo todo el stete del store de la app
         // const { uid } = getState().auth;
-        
+
         const newNote = {
             title: '',
             body: '',
@@ -20,11 +20,10 @@ export const startNewNote = () => {
             url: ''
         }
         try {
-
             const id = localStorage.getItem('login')
             // enviar a un path de firestore para guardarlo
             const docRef = await db.collection(`${id}/journal/notes`).add(newNote) //esto es una promesa
-            
+
             await dispatch(activeNote(docRef.id, newNote));
 
             //al momento de crear una nueva nota, la carga instantaneamente
@@ -59,36 +58,31 @@ export const startLoadingNotes = (uid) => {
         dispatch(startLoading())
         try {
             const notes = await loadNotes(uid);
-
-           /*  
-           const notesSnap = await db.collection(`${uid}/journal/notes`);
-        //con este codigo se obtienen los cabios en tiempo real, en el caso de comunicacion entre personas
-            notesSnap.onSnapshot(snap=>{
-                const notes = []
-        
-                snap.forEach(snapHijo => {
-                    notes.push({
-                        id:snapHijo.id,
-                        ...snapHijo.data()
-                    })        
-                })
+            /*  
+            const notesSnap = await db.collection(`${uid}/journal/notes`);
+         //con este codigo se obtienen los cabios en tiempo real, en el caso de comunicacion entre personas
+             notesSnap.onSnapshot(snap=>{
+                 const notes = []
+         
+                 snap.forEach(snapHijo => {
+                     notes.push({
+                         id:snapHijo.id,
+                         ...snapHijo.data()
+                     })        
+                 })
+             dispatch(setNotes(notes))
+ 
+             console.log(notes);
+                 return notes;
+             
+             }) */
             dispatch(setNotes(notes))
-
-            console.log(notes);
-                return notes;
-            
-            }) */
-            dispatch(setNotes(notes))
-
-
             dispatch(finishLoading())
         } catch (error) {
             console.log(error);
         }
     }
 }
-
-
 
 //las notes viennes de la bdd de fire
 export const setNotes = (notes) => ({
@@ -164,7 +158,7 @@ export const startDeleting = (id) => {
             /*  const signature = "07470fd3dba71c3c8a70398e48988dd08d3a838f";
              cloudinary.v2.uploader.destroy('y108i3cuzsxgnd1otroc', function(error,result) {
              console.log(result, error) }); */
-            Swal.fire('Nota eliminada con exito','','success');
+            Swal.fire('Nota eliminada con exito', '', 'success');
         } catch (error) {
             console.log(error);
         }

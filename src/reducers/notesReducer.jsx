@@ -1,6 +1,5 @@
 import { types } from "../types/types";
 
-
 const initialState = {
     notes: [],
     active: null
@@ -16,45 +15,42 @@ export const notesReducer = (state = initialState, action) => {
                 }
             }
         case types.notesAddNew:
-            return{
+            return {
                 ...state,
-                notes: [action.payload,...state.notes]
+                notes: [action.payload, ...state.notes]
             }
-        case types.notesLoad: 
-        console.log( action.payload);
-            return{
+        case types.notesLoad:
+            return {
                 ...state,
                 notes: [...action.payload]
             }
         case types.notesUpdated:
-            return{
+            return {
                 ...state,
                 //solo modifica la nota que se cambio
                 notes: state.notes.map(
-                   note=> note.id === action.payload.id
-                   //si hay un cambio
-                   ? action.payload.note
-                   //si no hay cambios
-                   : note
+                    note => note.id === action.payload.id
+                        //si hay un cambio
+                        ? action.payload.note
+                        //si no hay cambios
+                        : note
                 )
             }
         case types.notesDelete:
             return {
                 ...state,
                 active: null,
-                notes : state.notes.filter(
-                    note => note.id !== action.payload 
+                notes: state.notes.filter(
+                    note => note.id !== action.payload
                 )
-
             }
-            //se eliminan las notas al salir, para que el sig usuario no las vea
+        //se eliminan las notas al salir, para que el sig usuario no las vea
         case types.logout:
             return {
                 ...state,
                 notes: [],
-                active:null
+                active: null
             }
-
         default:
             return state;
     }

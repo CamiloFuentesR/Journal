@@ -35,7 +35,6 @@ export const AppRouter = (store) => {
             } else {
                 setisLoggedIn(false);
                 setChecking(false);
-
             }
         });
 
