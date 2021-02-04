@@ -10,6 +10,8 @@ export const startLoginEmailPassword = (email, password, verificar) => {
         try {
             const { user } = await firebase.auth().signInWithEmailAndPassword(email, password);
             if (user.emailVerified) {
+        localStorage.setItem('login',user.uid)
+
                 dispatch(loginAction(user.uid, user.displayName, user.emailVerified))
             }
             else {
