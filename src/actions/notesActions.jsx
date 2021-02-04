@@ -11,7 +11,7 @@ export const startNewNote = () => {
         dispatch(startLoading())
 
         //obtengo todo el stete del store de la app
-        const { uid } = getState().auth;
+        // const { uid } = getState().auth;
         
         const newNote = {
             title: '',
@@ -98,7 +98,7 @@ export const setNotes = (notes) => ({
 
 export const startSaveNote = (note) => {
     return async (dispatch, getState) => {
-        const { uid } = getState().auth;
+        // const { uid } = getState().auth;
 
         if (!note.url) {
             delete note.url;
@@ -153,7 +153,7 @@ export const startUploading = (file) => {
 
 export const startDeleting = (id) => {
     return async (dispatch, getState) => {
-        const { uid } = getState().auth;
+        // const { uid } = getState().auth;
         try {
             const id2 = localStorage.getItem('login')
 

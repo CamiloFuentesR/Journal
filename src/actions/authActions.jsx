@@ -1,7 +1,7 @@
 import { types } from "../types/types";
 import Swal from 'sweetalert2';
 import { firebase, googleAuthProvider } from '../firebase/firebaseConfig';
-import { finishLoading, startLoading, unsetError } from "./uiActions";
+import { finishLoading, startLoading } from "./uiActions";
 
 export const startLoginEmailPassword = (email, password, verificar) => {
     return async (dispatch) => {
@@ -10,8 +10,6 @@ export const startLoginEmailPassword = (email, password, verificar) => {
         try {
             const { user } = await firebase.auth().signInWithEmailAndPassword(email, password);
             if (user.emailVerified) {
-        localStorage.setItem('login',user.uid)
-
                 dispatch(loginAction(user.uid, user.displayName, user.emailVerified))
             }
             else {
