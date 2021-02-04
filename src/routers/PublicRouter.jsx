@@ -2,7 +2,7 @@ import React from 'react'
 import { Redirect, Route } from 'react-router-dom'
 
 export const PublicRouter = ({
-    isLogged,
+    isAuthenticated,
     component: Component,
     ...rest
 }) => {
@@ -10,9 +10,9 @@ export const PublicRouter = ({
         <Route {...rest}
             component={(props) => (
 
-                (!isLogged)
+                (!isAuthenticated)
                     ? (<Component {...props} />)
-                    : (<Redirect to="/" />)
+                    : (<Redirect to="/journal" />)
             )}
         />
     )

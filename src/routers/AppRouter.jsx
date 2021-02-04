@@ -14,7 +14,7 @@ import { PublicRouter } from './PublicRouter';
 import { PrivateRouter } from './PrivateRouter';
 import { startLoadingNotes } from '../actions/notesActions';
 
-export const AppRouter = () => {
+export const AppRouter = (store) => {
 
     const dispatch = useDispatch();
     const [checking, setChecking] = useState(true);
@@ -25,39 +25,43 @@ export const AppRouter = () => {
         firebase.auth().onAuthStateChanged(user => {
             //si existe un user id, es porque estoy logeado (debe tener el email verificado)
             if (user?.uid && user.emailVerified) {
+
+                localStorage.setItem('login', user.uid)
                 // dispatch(loginAction(user.uid, user.displayName, user.emailVerified));
                 // al estar logeado estoy dejando una marca true de quee stoy logeado
                 setisLoggedIn(true);
-                 dispatch(startLoadingNotes(user.uid))
+                dispatch(startLoadingNotes(user.uid))
+                setChecking(false);
             } else {
                 setisLoggedIn(false);
+                setChecking(false);
+
             }
-            setChecking(false);
         });
 
     }, [dispatch, setChecking, setisLoggedIn])
-
-    if(checking){
-         return <Loading />
+    //si no se usa, redirecciona al login mientras carga
+    if (checking) {
+        return <Loading />
     }
-return (
-    <Router>
-        <>
-            <Switch>
-                <PublicRouter
-                    path="/auth"
-                    component={AuthRouter}
-                    isLogged={isLoggedIn}
-                />
-                <PrivateRouter
-                    exact
-                    path="/"
-                    component={JournalScreen}
-                    isLogged={isLoggedIn}
-                />
-                <Redirect to="/" />
-            </Switch>
-        </>
-    </Router>
-)
+    return (
+        <Router>
+            <>
+                <Switch>
+                    <PublicRouter
+                        path="/auth/login"
+                        component={AuthRouter}
+                        isAuthenticated={isLoggedIn}
+                    />
+                    <PrivateRouter
+                        exact
+                        path="/journal"
+                        component={JournalScreen}
+                        isAuthenticated={isLoggedIn}
+                    />
+                    <Redirect to="/journal" />
+                </Switch>
+            </>
+        </Router>
+    )
 }

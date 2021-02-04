@@ -13,6 +13,7 @@ export const authReducer = (state = initialState, action) => {
                 uid: action.payload.uid,
                 name: action.payload.displayName,
                 verifyEmail: action.payload.verifyEmail
+                
             }
         case types.logout:
             return {}

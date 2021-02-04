@@ -51,9 +51,11 @@ export const LoginScreen = () => {
 
     const handleLogin = (e) => {
         e.preventDefault();
-        validEmail() && validPassword() &&
+        if(validEmail() && validPassword()) {
             //debe llevar el mismo orden definido
+
             dispatch(startLoginEmailPassword(email, password, verificar));
+        }
     }
     const handleGoogleLogin = () => {
         dispatch(startGoogleLogin());

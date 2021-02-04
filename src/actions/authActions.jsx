@@ -1,7 +1,7 @@
 import { types } from "../types/types";
 import Swal from 'sweetalert2';
 import { firebase, googleAuthProvider } from '../firebase/firebaseConfig';
-import { finishLoading, startLoading } from "./uiActions";
+import { finishLoading, startLoading, unsetError } from "./uiActions";
 
 export const startLoginEmailPassword = (email, password, verificar) => {
     return async (dispatch) => {
@@ -79,7 +79,7 @@ export const loginAction = (uid, displayName, verifyEmail) => ({
 //debe ser asynctrono porque me devleuve una pomesa de firebase
 export const logoutAction = () => {
     return async (dispatch) => {
-
+        localStorage.setItem('login','')
         firebase.auth().signOut();
         dispatch(logout());
     }

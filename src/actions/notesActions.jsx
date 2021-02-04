@@ -12,7 +12,7 @@ export const startNewNote = () => {
 
         //obtengo todo el stete del store de la app
         const { uid } = getState().auth;
-
+        
         const newNote = {
             title: '',
             body: '',
@@ -20,9 +20,11 @@ export const startNewNote = () => {
             url: ''
         }
         try {
-            // enviar a un path de firestore para guardarlo
-            const docRef = await db.collection(`${uid}/journal/notes`).add(newNote) //esto es una promesa
 
+            const id = localStorage.getItem('login')
+            // enviar a un path de firestore para guardarlo
+            const docRef = await db.collection(`${id}/journal/notes`).add(newNote) //esto es una promesa
+            
             await dispatch(activeNote(docRef.id, newNote));
 
             //al momento de crear una nueva nota, la carga instantaneamente
@@ -57,7 +59,28 @@ export const startLoadingNotes = (uid) => {
         dispatch(startLoading())
         try {
             const notes = await loadNotes(uid);
+
+           /*  
+           const notesSnap = await db.collection(`${uid}/journal/notes`);
+        //con este codigo se obtienen los cabios en tiempo real, en el caso de comunicacion entre personas
+            notesSnap.onSnapshot(snap=>{
+                const notes = []
+        
+                snap.forEach(snapHijo => {
+                    notes.push({
+                        id:snapHijo.id,
+                        ...snapHijo.data()
+                    })        
+                })
             dispatch(setNotes(notes))
+
+            console.log(notes);
+                return notes;
+            
+            }) */
+            dispatch(setNotes(notes))
+
+
             dispatch(finishLoading())
         } catch (error) {
             console.log(error);
@@ -86,7 +109,9 @@ export const startSaveNote = (note) => {
         try {
             //borro el id para no cambiarlo , ya que no necesito cambiarlo
             delete noteToFirestore.id;
-            await db.doc(`${uid}/journal/notes/${note.id}`).update(noteToFirestore);
+            const id = localStorage.getItem('login')
+
+            await db.doc(`${id}/journal/notes/${note.id}`).update(noteToFirestore);
 
             //sirve pra hacer un lazyload o pagincion, no es laa manera correcta
             // dispatch(startLoadingNotes(uid));
@@ -130,7 +155,9 @@ export const startDeleting = (id) => {
     return async (dispatch, getState) => {
         const { uid } = getState().auth;
         try {
-            await db.doc(`${uid}/journal/notes/${id}`).delete();
+            const id2 = localStorage.getItem('login')
+
+            await db.doc(`${id2}/journal/notes/${id}`).delete();
 
             dispatch(deleteNote(id))
             //eliminar foto de cloudinary

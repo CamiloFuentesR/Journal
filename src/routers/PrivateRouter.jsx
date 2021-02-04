@@ -2,7 +2,7 @@ import React  from 'react'
 import { Redirect, Route } from 'react-router-dom'
 
 export const PrivateRouter = ({
-    isLogged,
+    isAuthenticated,
     component: Component,
     ...rest
 }) => {
@@ -10,7 +10,7 @@ export const PrivateRouter = ({
         <Route {...rest}
             component={(props) => (
 
-                (isLogged)
+                (isAuthenticated)
                     ? (<Component {...props} />)
                     : (<Redirect to="/auth/login" />)
             )}

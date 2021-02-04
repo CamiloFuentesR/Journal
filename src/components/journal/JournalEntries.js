@@ -7,6 +7,7 @@ import JournalEntry from './JournalEntry';
 
     const {notes} = useSelector(state => state.notes)
     const {loading} = useSelector(state => state.ui)
+
     return (
         <div className="journl__entries">
             {
@@ -15,13 +16,14 @@ import JournalEntry from './JournalEntry';
                  && <LoadingNotes/>
             }
             {
-                notes &&
-                notes.map(note=> (
+                 notes &&
+                notes.map(note=>{
+                    return (
                     <JournalEntry 
                         key={note.id} 
                         {...note}
                     />
-                ))
+                )})
             } 
         </div>
     )
