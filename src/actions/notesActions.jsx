@@ -76,6 +76,7 @@ export const startLoadingNotes = (uid) => {
                  return notes;
              
              }) */
+                
             dispatch(setNotes(notes))
             dispatch(finishLoading())
         } catch (error) {

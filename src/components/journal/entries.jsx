@@ -7,7 +7,7 @@ const JournalEntry = React.lazy(() => import('./JournalEntry'));
 const JournalEntries = () => {
 
     const { notes } = useSelector(state => state.notes)
-
+    
     return (
         <div className="journl__entries">
              <Suspense
