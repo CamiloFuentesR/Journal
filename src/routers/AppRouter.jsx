@@ -39,7 +39,7 @@ export const AppRouter = (store) => {
         });
 
     }, [dispatch, setChecking, setisLoggedIn])
-    //si no se usa, redirecciona al login mientras carga
+    //si no se usa, redirecciona al login mientras cargas
     if (checking) {
         return <Loading />
     }
